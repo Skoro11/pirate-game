@@ -4,16 +4,47 @@ extends CharacterBody3D
 @export var sprint_speed: float = 8.0
 @export var jump_velocity: float = 6.0
 @export var look_speed: float = 0.002
+@export var max_health: int = 100
+@export var respawn_delay: float = 5.0
 
 @onready var character: Node3D = $Characters_Captain_Barbarossa
 @onready var head: Node3D = $Head
 
 var mouse_captured := false
 var look_yaw := 0.0
+var health: int
+var is_dead := false
+var spawn_transform: Transform3D
 
 func _ready() -> void:
 	look_yaw = rotation.y
+	health = max_health
+	spawn_transform = global_transform
+	add_to_group("player")
 	capture_mouse()
+
+func take_hit(amount: int) -> void:
+	if is_dead:
+		return
+	health -= amount
+	if health <= 0:
+		is_dead = true
+		character.play_action("Death")
+		get_tree().create_timer(respawn_delay).timeout.connect(_respawn)
+	else:
+		character.play_action("HitReact")
+
+func _respawn() -> void:
+	is_dead = false
+	health = max_health
+	velocity = Vector3.ZERO
+	global_transform = spawn_transform
+	look_yaw = rotation.y
+
+	character.is_busy = false
+	character.is_jumping = false
+	character.landing_pending = false
+	character.anim_player.play("Idle")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and mouse_captured:

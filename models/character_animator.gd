@@ -9,6 +9,10 @@ extends Node3D
 
 const LOOPING_ANIMATIONS := ["Idle", "Walk", "Run", "Jump_Idle"]
 
+@export var attack_range: float = 1.3
+@export var attack_damage: int = 10
+@export var attack_speed: float = 1.6
+
 # True while a one-shot animation (attack, jump takeoff/landing, etc.) is
 # playing, so movement doesn't stomp it back to Idle/Walk/Run mid-play.
 var is_busy := false
@@ -89,3 +93,39 @@ func _on_animation_finished(anim_name: StringName) -> void:
 	if is_busy:
 		is_busy = false
 		anim_player.play("Idle")
+
+func _attack(anim_name: String) -> void:
+	# Already mid-swing (or any other one-shot action): ignore repeat
+	# triggers instead of restarting the animation and re-rolling the hit.
+	if is_busy:
+		return
+	is_busy = true
+	anim_player.play(anim_name, -1, attack_speed)
+	_try_hit()
+
+## Instant melee check in front of whoever owns this animator when an attack
+## starts (not synced to the swing's actual impact frame yet, but good
+## enough to get hit reactions working). Works for player or AI alike.
+func _try_hit() -> void:
+	var body := get_parent() as Node3D
+	var attacker_is_enemy := body.is_in_group("enemies")
+	var forward := body.global_transform.basis.z.normalized()
+	var origin := body.global_position + Vector3(0, 1, 0) + forward * 0.8
+
+	var shape := SphereShape3D.new()
+	shape.radius = attack_range
+
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = shape
+	query.transform = Transform3D(Basis(), origin)
+	query.exclude = [body.get_rid()]
+
+	var space_state := get_world_3d().direct_space_state
+	for result in space_state.intersect_shape(query):
+		var collider = result.collider
+		if not collider.has_method("take_hit"):
+			continue
+		# No friendly fire: enemies can't hurt other enemies, only the player.
+		if collider.is_in_group("enemies") == attacker_is_enemy:
+			continue
+		collider.take_hit(attack_damage)

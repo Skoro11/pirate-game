@@ -33,9 +33,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	else:
 		play_action(anim_name)
 
-@export var attack_range: float = 1.3
-@export var attack_damage: int = 10
-
 func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton and event.pressed):
 		return
@@ -44,29 +41,3 @@ func _unhandled_input(event: InputEvent) -> void:
 		_attack("Punch")
 	elif event.button_index == MOUSE_BUTTON_RIGHT:
 		_attack("Sword")
-
-func _attack(anim_name: String) -> void:
-	play_action(anim_name)
-	_try_hit()
-
-## Instant melee check in front of the player when an attack starts
-## (not synced to the swing's actual impact frame yet, but good enough
-## to get hit reactions working).
-func _try_hit() -> void:
-	var body := get_parent() as Node3D
-	var forward := body.global_transform.basis.z.normalized()
-	var origin := body.global_position + Vector3(0, 1, 0) + forward * 0.8
-
-	var shape := SphereShape3D.new()
-	shape.radius = attack_range
-
-	var query := PhysicsShapeQueryParameters3D.new()
-	query.shape = shape
-	query.transform = Transform3D(Basis(), origin)
-	query.exclude = [body.get_rid()]
-
-	var space_state := get_world_3d().direct_space_state
-	for result in space_state.intersect_shape(query):
-		var collider = result.collider
-		if collider.has_method("take_hit"):
-			collider.take_hit(attack_damage)
