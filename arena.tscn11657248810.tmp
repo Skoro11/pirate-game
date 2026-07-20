@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://c6dah5v8ngwci" path="res://scripts/player_hud.gd" id="9_player_hud"]
 [ext_resource type="PackedScene" uid="uid://kurunn28tby5" path="res://models/Characters_Skeleton.gltf" id="11_g8a64"]
 [ext_resource type="PackedScene" uid="uid://d4faf4hj7fc4t" path="res://models/Characters_Henry.gltf" id="12_uvldv"]
-[ext_resource type="PackedScene" uid="uid://dj8u8klxs7ryw" path="res://models/Characters_Anne.gltf" id="13_nb1nt"]
-[ext_resource type="Script" path="res://scripts/ally_ai.gd" id="14_ally_ai"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_barbossa"]
 radius = 0.4
@@ -131,24 +129,5 @@ shape = SubResource("CapsuleShape3D_barbossa")
 [node name="Characters_Skeleton" parent="SkeletonBody" unique_id=1230858211 instance=ExtResource("11_g8a64")]
 script = ExtResource("8_mako_animator")
 
-[node name="HenryBody" type="CharacterBody3D" parent="."]
+[node name="Characters_Henry" parent="." unique_id=1510726895 instance=ExtResource("12_uvldv")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 63.694214, -1.1075964, 43.113647)
-script = ExtResource("14_ally_ai")
-
-[node name="Collider" type="CollisionShape3D" parent="HenryBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_barbossa")
-
-[node name="Characters_Henry" parent="HenryBody" unique_id=1510726895 instance=ExtResource("12_uvldv")]
-script = ExtResource("8_mako_animator")
-
-[node name="AnneBody" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.755615, -1.1222186, 44.743774)
-script = ExtResource("14_ally_ai")
-
-[node name="Collider" type="CollisionShape3D" parent="AnneBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_barbossa")
-
-[node name="Characters_Anne" parent="AnneBody" unique_id=1877519654 instance=ExtResource("13_nb1nt")]
-script = ExtResource("8_mako_animator")

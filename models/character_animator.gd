@@ -108,7 +108,7 @@ func _attack(anim_name: String) -> void:
 ## enough to get hit reactions working). Works for player or AI alike.
 func _try_hit() -> void:
 	var body := get_parent() as Node3D
-	var attacker_is_enemy := body.is_in_group("enemies")
+	var attacker_is_hostile := body.is_in_group("hostile")
 	var forward := body.global_transform.basis.z.normalized()
 	var origin := body.global_position + Vector3(0, 1, 0) + forward * 0.8
 
@@ -125,7 +125,8 @@ func _try_hit() -> void:
 		var collider = result.collider
 		if not collider.has_method("take_hit"):
 			continue
-		# No friendly fire: enemies can't hurt other enemies, only the player.
-		if collider.is_in_group("enemies") == attacker_is_enemy:
+		# No friendly fire: hostiles only hurt friendlies (player + allies)
+		# and vice versa, never their own side.
+		if collider.is_in_group("hostile") == attacker_is_hostile:
 			continue
 		collider.take_hit(attack_damage)

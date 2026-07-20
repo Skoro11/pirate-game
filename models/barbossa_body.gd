@@ -21,6 +21,7 @@ func _ready() -> void:
 	health = max_health
 	spawn_transform = global_transform
 	add_to_group("player")
+	add_to_group("friendly")
 	capture_mouse()
 
 func take_hit(amount: int) -> void:

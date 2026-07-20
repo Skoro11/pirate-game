@@ -5,6 +5,7 @@ extends CharacterBody3D
 
 @export var max_health: int = 30
 @export var respawn_delay: float = 5.0
+@export_enum("hostile", "friendly") var faction: String = "hostile"
 @export var show_health_bar: bool = true
 @export var health_bar_width: float = 1.0
 @export var health_bar_height: float = 0.12
@@ -26,7 +27,7 @@ var original_collider_transform: Transform3D
 func _ready() -> void:
 	health = max_health
 	spawn_transform = global_transform
-	add_to_group("enemies")
+	add_to_group(faction)
 	for child in get_children():
 		if child.has_method("play_action"):
 			animator = child
