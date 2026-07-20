@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://b240erh8cauvn" path="res://models/barbossa_body.gd" id="4_gravity"]
 [ext_resource type="PackedScene" uid="uid://m267qgfsmrgj" path="res://models/Ship_Large.gltf" id="4_h0wof"]
 [ext_resource type="Script" uid="uid://w5wlmesrk3hq" path="res://scripts/auto_mesh_collision.gd" id="5_ship_collision"]
+[ext_resource type="PackedScene" uid="uid://c3itk0tmnl61e" path="res://models/Characters_Mako.gltf" id="6_sbb53"]
+[ext_resource type="Script" path="res://scripts/ai_body.gd" id="7_mako_ai"]
+[ext_resource type="Script" path="res://models/character_animator.gd" id="8_mako_animator"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_barbossa"]
 radius = 0.4
@@ -21,10 +24,12 @@ sky_material = SubResource("ProceduralSkyMaterial_g21bf")
 background_mode = 2
 sky = SubResource("Sky_ubfh8")
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_j4au5"]
+
 [node name="Main" type="Node3D" unique_id=253018322]
 
 [node name="Barbossa" type="CharacterBody3D" parent="." unique_id=1518031092]
-transform = Transform3D(0.99933326, 0.03524243, -0.009534259, -0.035198443, 0.9993691, 0.004742424, 0.009695384, -0.004403661, 0.9999433, 54.80242, 22.111544, 21.951881)
+transform = Transform3D(0.99933326, 0.03524243, -0.009534259, -0.035198443, 0.9993691, 0.004742424, 0.009695384, -0.004403661, 0.9999433, 61.278057, -1.2090821, 44.397663)
 script = ExtResource("4_gravity")
 
 [node name="Collider" type="CollisionShape3D" parent="Barbossa" unique_id=1954372839]
@@ -58,5 +63,24 @@ use_collision = true
 metadata/_edit_lock_ = true
 
 [node name="Ship_Large2" parent="." unique_id=538115486 instance=ExtResource("4_h0wof")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 54.382168, 9.599888, 23.473333)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 54.33573, 9.599888, 23.471104)
+visible = false
 script = ExtResource("5_ship_collision")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ship_Large2" unique_id=469151403]
+transform = Transform3D(-0.03997511, -0.13317859, -2.5411987, 0, 2.5415123, -0.13319501, 2.544686, -0.0020921358, -0.039920326, -0.35114098, 2.2281585, -0.18921423)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ship_Large2/StaticBody3D" unique_id=1375308173]
+transform = Transform3D(3.5000002, 2.3283064e-10, 1.1175871e-08, 0, 3.5000002, 4.022513e-08, 1.8626451e-08, -4.467438e-09, 3.5, 0.4523945, -0.061810017, 0.2729106)
+shape = SubResource("ConvexPolygonShape3D_j4au5")
+
+[node name="MakoBody" type="CharacterBody3D" parent="."]
+transform = Transform3D(-1.1370056, 0, -0.6302526, 0, 1.3, 0, 0.6302526, 0, -1.1370056, 61.2199, -1.1385258, 48.16758)
+script = ExtResource("7_mako_ai")
+
+[node name="Collider" type="CollisionShape3D" parent="MakoBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_barbossa")
+
+[node name="Mako" parent="MakoBody" unique_id=2085518519 instance=ExtResource("6_sbb53")]
+script = ExtResource("8_mako_animator")
