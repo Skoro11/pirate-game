@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dr3d1avig5t6b"]
+
+[ext_resource type="PackedScene" uid="uid://i0o33ifb3hdo" path="res://models/Characters_Captain_Barbarossa.gltf" id="2_444vf"]
+[ext_resource type="Script" uid="uid://cxwpdqx8ss7lb" path="res://models/characters_captain_barbarossa.gd" id="3_barbossa"]
+[ext_resource type="Script" uid="uid://b240erh8cauvn" path="res://models/barbossa_body.gd" id="4_gravity"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_barbossa"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g21bf"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_ubfh8"]
+sky_material = SubResource("ProceduralSkyMaterial_g21bf")
+
+[sub_resource type="Environment" id="Environment_444vf"]
+background_mode = 2
+sky = SubResource("Sky_ubfh8")
+
+[node name="Main" type="Node3D" unique_id=253018322]
+
+[node name="Barbossa" type="CharacterBody3D" parent="." unique_id=1518031092]
+transform = Transform3D(0.99933326, 0.03524243, -0.009534259, -0.035198443, 0.9993691, 0.004742424, 0.009695384, -0.004403661, 0.9999433, -58.098, 0, 51.974)
+script = ExtResource("4_gravity")
+
+[node name="Collider" type="CollisionShape3D" parent="Barbossa" unique_id=1954372839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_barbossa")
+
+[node name="Characters_Captain_Barbarossa" parent="Barbossa" unique_id=1923634865 instance=ExtResource("2_444vf")]
+script = ExtResource("3_barbossa")
+
+[node name="Head" type="Node3D" parent="Barbossa" unique_id=470919152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Barbossa/Head" unique_id=1593581930]
+transform = Transform3D(-0.9975019, -0.050698742, 0.049192913, -0.023980591, 0.8980378, 0.43926442, -0.06644723, 0.4369873, -0.89701, -0.051589966, 0.6760771, -2.9095497)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1641686011]
+environment = SubResource("Environment_444vf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=117693103]
+transform = Transform3D(-0.90630776, -0.3667336, 0.21003029, 0, 0.4969739, 0.8677655, -0.42261833, 0.7864626, -0.4504113, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="." unique_id=627026475]
+transform = Transform3D(9.165406, 0, 0, 0, 52.90361, 0, 0, 0, 9.165406, 0, -3, 0)
+use_collision = true
+size = Vector3(26.68863, 0.0703125, 28.342266)
+metadata/_edit_lock_ = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=9088137]
+use_collision = true
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1337669762]
+transform = Transform3D(2.1291175, 0, 0, 0, 1.860955, 0, 0, 0, 2.1291175, -115.67642, 6.816921, 4.5186844)
+size = Vector3(1.8374023, 9.733971, 82.4)
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=677986057]
+transform = Transform3D(9.165401, 0, 3.414378e-08, 0, 52.904392, 0, -3.414378e-08, 0, 9.165401, -42.815716, 5.757124, 33.420845)
+height = 0.38085938
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=74194025]
+transform = Transform3D(9.165405, 0, 8.535949e-09, 0, 52.90384, 0, -8.535949e-09, 0, 9.165405, -51.3717, 14.221352, -52.230305)
+height = 0.63183594
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=994708297]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.9999979, 0, 0, 0, 0.99999976, -55.86398, 6.6905212, 90.34456)
+size = Vector3(115.43396, 16.883598, 3.9590454)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=117753221]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.9999953, 0, 0, 0, 0.99999976, -56.179073, 6.841407, -81.44438)
+size = Vector3(118.22864, 16.883598, 3.9590454)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1169402497]
+transform = Transform3D(4.417491, 0, 0, 0, 9.922261, 0, 0, 0, 4.417491, 0, 5.563178, 4.555207)
+size = Vector3(1, 1.9604721, 38.36328)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=2070002236]
+transform = Transform3D(9.165404, 0, 1.7071896e-08, 0, 52.904007, 0, -1.7071896e-08, 0, 9.165404, -92.67091, 6.170371, -25.09488)
+height = 0.36523438
