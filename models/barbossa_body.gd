@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			var forward_input := Input.get_axis("ui_down", "ui_up")
 			if forward_input != 0:
-				var horizontal_speed := Vector2(velocity.x, velocity.z).length()
+				var horizontal_speed := maxf(Vector2(velocity.x, velocity.z).length(), move_speed)
 				var move_dir := (transform.basis * Vector3(0, 0, forward_input)).normalized()
 				velocity.x = move_dir.x * horizontal_speed
 				velocity.z = move_dir.z * horizontal_speed

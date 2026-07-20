@@ -24,8 +24,12 @@ sky = SubResource("Sky_ubfh8")
 [node name="Main" type="Node3D" unique_id=253018322]
 
 [node name="Barbossa" type="CharacterBody3D" parent="." unique_id=1518031092]
-transform = Transform3D(0.99933326, 0.03524243, -0.009534259, -0.035198443, 0.9993691, 0.004742424, 0.009695384, -0.004403661, 0.9999433, 54.80242, 22.111544, 21.951881)
+transform = Transform3D(0.99933326, 0.03524243, -0.009534259, -0.035198443, 0.9993691, 0.004742424, 0.009695384, -0.004403661, 0.9999433, 77.4835, 22.111544, 21.951881)
 script = ExtResource("4_gravity")
+move_speed = null
+sprint_speed = null
+jump_velocity = null
+look_speed = null
 
 [node name="Collider" type="CollisionShape3D" parent="Barbossa" unique_id=1954372839]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -58,5 +62,5 @@ use_collision = true
 metadata/_edit_lock_ = true
 
 [node name="Ship_Large2" parent="." unique_id=538115486 instance=ExtResource("4_h0wof")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 54.382168, 9.599888, 23.473333)
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 54.382168, 9.599888, 23.473333)
 script = ExtResource("5_ship_collision")
